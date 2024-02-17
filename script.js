@@ -2,14 +2,18 @@ window.onload = function() {
     var canvas = document.getElementById('canvas');
     var ctx = canvas.getContext('2d');
 
-    var angle = 0;
     var length = 200;
     var centerX = canvas.width / 2;
     var centerY = canvas.height / 2;
-    var direction = 1;
+    var gravity = 9.8; // Aceleración debido a la gravedad
+    var time = 0;
+    var timeIncrement = 0.1;
 
     function draw() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        // Calcular el ángulo usando la fórmula del movimiento armónico simple
+        var angle = Math.PI / 4 * Math.cos(Math.sqrt(gravity / length) * time);
 
         var x = centerX + length * Math.sin(angle);
         var y = centerY + length * Math.cos(angle);
@@ -23,14 +27,7 @@ window.onload = function() {
         ctx.arc(x, y, 20, 0, 2 * Math.PI);
         ctx.fill();
 
-        // Cambiar la dirección si el ángulo está fuera del rango 180-360
-        if (angle < Math.PI) { // Menor que 180 grados
-            direction = 1;
-        } else if (angle > 2 * Math.PI) { // Mayor que 360 grados
-            direction = -1;
-        }
-
-        angle += 0.01 * direction;
+        time += timeIncrement;
     }
 
     setInterval(draw, 10);
